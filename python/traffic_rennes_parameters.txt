@@ -1,0 +1,20 @@
+# Paramètre sous la forme "nom = valeur"
+# liste index_name, index_init, traffic_nb_rows, traffic_reliability, traffic_time_interval, traffic_time_max
+
+# nom de l'index : string
+index_name = traffic_rennes
+
+# ré-crée l'index ou maj : bool
+index_init = False
+
+# nombre de ligne par requête : int
+traffic_nb_rows = 100
+
+# niveau de confiance des données en % : int
+traffic_reliability = 5
+
+# intervalle de requêtage en s : int
+traffic_time_interval = 10
+
+# temps maximale en s : int
+traffic_time_max = 12

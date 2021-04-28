@@ -1,52 +1,111 @@
-#!/usr/bin/env python
 # coding: utf-8
 
-# librairies
-import time
-import requests
-import json
+'''
+Programme qui va consommer l'api traffic rennes pour ensuite transférer ses données à elasticsearch : 
+- windows (pré-requis)
+--> programme lamcé en batch windows
+--> ses paramètres sont à définir dans un fichier text sous la fome "nom = valeur"
+--> le fichier des paramètres doit être passé en paramètre lors de l'appel du programme python en .bat
+--> le script utils.py avec les fonctions python doit se trouver à la racine du programme
 
+- python
+--> on récupère le contenu du fichier des paramètres et on initialise les variables
+----> si fichier non existant on utilise des valeurs par défauts
+--> connection elasticsearch et gestion de l'index
+--> stream-processing / loop
+----> requête l ápi et récupère les données
+----> nettoyage / validation
+----> envoies à elasticsearch
+
+- fin
+'''
+
+
+#%% librairies
+import time
+import sys
+import requests
 import utils
 
 
 
-# ### Initialisation
+#%% ### Initialisation
 time.sleep(1)
-print("\nDébut:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("\nDébut-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"))
 
-# variables grlobales
-# nom de l'index
-index_name = "python_traffic"
+print("\n\nInformations")
 
-# ré-çrée l'index ou maj
-index_init = False
+# gestion des variables globales
+# parametre fournit en cmd
+cArgs = sys.argv 
+#cArgs[0] pour script
 
-# nombre de ligne par requête
-traffic_nb_rows = 100
+print("- Fichier avec les paramètres")
+params_file_exist = False
+try:
+    params_file = cArgs[1]
+    params_file_exist = True
+    print("-->", params_file)
+except:
+    print("--> /!\ non fourni")
 
-# niveau de confiance des données
-traffic_reliability = 5
 
-# intervalle de requêtage et temps maximale
-traffic_time_interval = 10
-traffic_time_max = 30
+if params_file_exist:
+    params_sep = " = "
+
+    # fichier avec les parametres sous la forme nom = valeur
+    fichier = open(file=params_file, mode="r", newline="")
+    params_list = [line.rstrip() for line in fichier.readlines() if (line[0]!='#' and params_sep in line)]
+    fichier.close()
+    
+    params = {}
+    for i in params_list:
+        a = i.split(params_sep)
+        params[a[0]] = a[1]
+    
+    # initialisation des parametres
+    index_name = str(params["index_name"])
+    index_init = params["index_init"]=='True'
+    traffic_nb_rows = int(params["traffic_nb_rows"])
+    traffic_reliability = int(params["traffic_reliability"])
+    traffic_time_interval = int(params["traffic_time_interval"])
+    traffic_time_max = int(params["traffic_time_max"])
+    
+else:
+    # valeurs par defaut pour test
+    print("--> les valeurs par défaut vont être utilisées")
+    # nom de l'index
+    index_name = "traffic_rennes"
+    
+    # ré-çrée l'index ou maj
+    index_init = False
+    
+    # nombre de ligne par requête
+    traffic_nb_rows = 10
+    
+    # niveau de confiance des données
+    traffic_reliability = 5
+    
+    # intervalle de requêtage et temps maximale
+    traffic_time_interval = 5
+    traffic_time_max = 15
 
 # url
 traffic_url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel&q=&rows="+str(traffic_nb_rows)
 
 print(
-    "\n\nInformations",
-    "\n--> api traffic:",
-    "\n----> url:", traffic_url,
-    "\n----> nombre de lignes à prendre:", traffic_nb_rows,
-    "\n----> reliability: >{}%".format(traffic_reliability),
-    "\n----> rafraichissement: tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
-    "\n--> elasticsearch index:", index_name
+    "\n- Api traffic:",
+    "\n--> url:", traffic_url,
+    "\n--> nombre de lignes à prendre:", traffic_nb_rows,
+    "\n--> reliability: >{}%".format(traffic_reliability),
+    "\n--> rafraichissement: tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
+    
+    "\n\n- Elasticsearch index:", index_name
 )
 
 
 
-# ### Connection elastic search
+#%% ### Connection elastic search
 time.sleep(1)
 print("\n\nConnection à elasticsearch")
 # crée une connection elasticsearch
@@ -59,19 +118,19 @@ time.sleep(1)
 print(f"\n\nGestion de l'index '{index_name}'")
 
 index_create = False
-if not index_init:
-    if es.indices.exists(index=index_name):
-        index_init_text = "mise à jour"
-    else:
-        index_create = True
-        index_init_text = "création"
-else:
+if index_init:
     index_create = True
     if es.indices.exists(index=index_name):
         index_init_text = "remplacement (après suppression)"
         es.indices.delete(index=index_name)
     else:
         index_init_text = "création"
+else:
+    if es.indices.exists(index=index_name):
+        index_init_text = "mise à jour"
+    else:
+        index_create = True
+        index_init_text = "création (car index non existant pour maj)"
 
 print("--> opéation à réaliser sur l'index:", index_init_text)
 
@@ -109,16 +168,17 @@ print("--> nombre de documents dans l'index:", nb_rows_elastic1)
 
 
 
-# ### Loop
+#%% ### Loop
 time.sleep(1)
-print("\n\nApi traffic to Elasticsearch")
+print("\n\nApi traffic to Elasticsearch: stream-processing")
 traffic_nb_requete = int(traffic_time_max / traffic_time_interval)
-print(f"--> il y a {traffic_nb_requete} requêtes à faire tous les {traffic_time_interval}s")
+print(f"- stream-config: il y aura {traffic_nb_requete} requêtes à faire tous les {traffic_time_interval}s")
 
+print("- stream-starts:", time.strftime("%Y/%m/%d %H:%M:%S"))
 cpt = 1
 while cpt<=traffic_nb_requete:
     print(f"\n--- Requête {cpt}/{traffic_nb_requete} ---")
-    print("start:", time.strftime("%Y/%m/%d %H:%M:%S"))
+    print("- lancement:", time.strftime("%Y/%m/%d %H:%M:%S"))
 
     ### Import depuis l'api traffic
     print("\n- API traffic")
@@ -153,7 +213,7 @@ while cpt<=traffic_nb_requete:
     print("\n- Export vers elasticsearch")
 
     # export vers elastic
-    print("...")
+    print("--> export en cours...")
     i = es.count(index=index_name)['count']+1
     j = 0
     for doc_body in data:
@@ -165,17 +225,18 @@ while cpt<=traffic_nb_requete:
     
     ### attente / rafraichissement
     if cpt<traffic_nb_requete:
-        print("\n(--attente--)")
+        print(f"\n(--- attente-de-{traffic_time_interval}s-avant-nouvel-appel-api ---)\n")
         time.sleep(traffic_time_interval)
     cpt = cpt+1
     
-print("\n- end:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("\n- stream-ends:", time.strftime("%Y/%m/%d %H:%M:%S"))
 
 
 
-# check elasticsearch
+#%% check elasticsearch
 time.sleep(3)
+print("\n\nElasticsearch")
 nb_rows_elastic2 = es.count(index=index_name)["count"]
-print(f"\n--> nombre total de documents dans l'index: {nb_rows_elastic2}/{nb_rows_elastic1}")
+print(f"--> nombre total de documents dans l'index: {nb_rows_elastic2}/{nb_rows_elastic1}")
 
-print("\nFin:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("\nFin-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"))
