@@ -25,7 +25,7 @@ Programme qui va consommer l'api traffic rennes pour ensuite transférer ses don
 import time
 import sys
 import requests
-import utils
+import traffic_rennes_elasticsearch_utils as utils
 
 
 
@@ -97,7 +97,7 @@ print(
     "\n- Api traffic:",
     "\n--> url:", traffic_url,
     "\n--> nombre de lignes à prendre:", traffic_nb_rows,
-    "\n--> reliability: >{}%".format(traffic_reliability),
+    "\n--> reliability: >={}%".format(traffic_reliability),
     "\n--> rafraichissement: tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
     
     "\n\n- Elasticsearch index:", index_name
@@ -239,4 +239,4 @@ print("\n\nElasticsearch")
 nb_rows_elastic2 = es.count(index=index_name)["count"]
 print(f"--> nombre total de documents dans l'index: {nb_rows_elastic2}/{nb_rows_elastic1}")
 
-print("\nFin-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("\n\nFin-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"), "\n")
