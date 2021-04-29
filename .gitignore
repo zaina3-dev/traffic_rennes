@@ -7,3 +7,6 @@ PROJET_RENNES.pdf
 __pycache__/
 *.pyc
 
+*.idea
+test/
+
