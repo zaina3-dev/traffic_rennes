@@ -5,6 +5,7 @@ PROJET_RENNES.pdf
 
 # python
 __pycache__/
+.ipynb_checkpoints/
 *.pyc
 
 *.idea
