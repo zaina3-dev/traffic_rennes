@@ -1,5 +1,5 @@
 @ECHO OFF 
-TITLE Transfert données api traffic to elasticsearch
+TITLE Transfert data from traffic api to elasticsearch (python)
 
 rem Variables
 SET python_exe=python
