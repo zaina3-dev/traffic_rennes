@@ -11,7 +11,7 @@ index_init = False
 traffic_nb_rows = 100
 
 # niveau de confiance des données en % : int
-traffic_reliability = 5
+traffic_reliability = 50
 
 # intervalle de requêtage en s : int
 traffic_time_interval = 10
