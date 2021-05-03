@@ -1,4 +1,4 @@
-# Fichier de paramètre utiliser dans le programme "trafficrennes_transfertdata.py"
+# Fichier de paramètres utilisé dans le programme "trafficrennes_transfertdata.py"
 # --> 6 paramètres sous la forme "nom = valeur"
 
 # 1. nom de l'index : string
