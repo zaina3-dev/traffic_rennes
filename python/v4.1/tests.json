@@ -1,0 +1,8 @@
+{
+  "index_name": "traffic_rennes",
+  "index_init": "False",
+  "traffic_nb_rows": 590,
+  "traffic_reliability": 6,
+  "traffic_time_interval": 10,
+  "traffic_time_max": 12
+}

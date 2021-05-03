@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Traffic Rennes</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      var $SCRIPT_ROOT={{ request.script_root|tojson|safe }};
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+<div class="main-block">
+      <span id="result">?</span>
+    	<button onclick="update_values('test');">Stop</button>
+    <form method="POST" action="/statut">
+        <input type="submit" name = "favourite" value="Statut" >
+    </form>
+    <form action="/" method="POST">
+        <div class="info">
+            <div class="info-item">
+                <label class="icon" for="index_name">Nom de l'index </label>
+                <input type="text" name="index_name" id="index_name" placeholder="index_name"
+                       value="{{ data.index_name }}"/>
+            </div>
+            <div class="info-item">
+                <label class="icon" for="index_init">ré-crée l'index ou maj </label>
+                <input type="checkbox" id="index_init" checked="{{ data.index_init }}"/>
+
+            </div>
+            <div class="info-item">
+                <label class="icon" for="traffic_nb_rows">nombre de ligne par requête </label>
+                <input type="text" name="traffic_nb_rows" id="traffic_nb_rows" placeholder="traffic_nb_rows"
+                       value="{{ data.traffic_nb_rows }}" required/>
+            </div>
+            <div class="info-item">
+                <label class="icon" for="traffic_reliability">niveau de confiance des données en % </label>
+                <input type="text" name="traffic_reliability" id="traffic_reliability" placeholder="traffic_reliability"
+                       value="{{ data.traffic_reliability }}"
+                       required/>
+            </div>
+            <div class="info-item">
+                <label class="icon" for="traffic_time_interval">intervalle de requêtage en seconde </label>
+                <input type="text" name="traffic_time_interval" id="traffic_time_interval"
+                       placeholder="traffic_time_interval" value="{{ data.traffic_time_interval }}"
+                       required/>
+            </div>
+            <div class="info-item">
+                <label class="icon" for="traffic_time_max">temps maximale en s </label>
+                <input type="text" name="traffic_time_max" id="traffic_time_max" placeholder="traffic_time_max"
+                       value="{{ data.traffic_time_max }}"
+                       required/>
+
+            </div>
+            <div class="info-item">
+                  {% with messages = get_flashed_messages() %}
+                   {% if messages %}
+                      {% for message in messages %}
+                         {{ message }}
+                      {% endfor %}
+                   {% endif %}
+                {% endwith %}
+            </div>
+            <div class="info-item" id="infox">
+            </div>
+        </div>
+
+        <button type="submit" class="updateButton">valider</button>
+    </form>
+</div>
+
+
+<!--    <script src="{{ url_for('static', filename='app.js') }}"></script> -->
+</body>
+</html>
