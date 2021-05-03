@@ -24,7 +24,10 @@ Programme qui va consommer l'api traffic rennes pour ensuite transférer ses don
 import time
 import sys
 import requests
-import traffic_rennes_elasticsearch_utils as utils
+
+# librairie personnelle
+import trafficrennes_transfertdata_utils as utils
+
 
 # %% ### Initialisation
 time.sleep(1)
@@ -66,7 +69,6 @@ if params_file_exist:
     traffic_reliability = int(params["traffic_reliability"])
     traffic_time_interval = int(params["traffic_time_interval"])
     traffic_time_max = int(params["traffic_time_max"])
-
 else:
     # valeurs par defaut pour test
     print("--> les valeurs par défaut vont être utilisées")
@@ -99,6 +101,7 @@ print(
 
     "\n\n- Elasticsearch index:", index_name
 )
+
 
 # %% ### Connection elastic search
 time.sleep(1)
@@ -159,7 +162,8 @@ if index_create:
 nb_rows_elastic1 = es.count(index=index_name)["count"]
 print("--> nombre de documents dans l'index:", nb_rows_elastic1)
 
-# %% ### Loop
+
+# %% ### Stream-processing / Loop
 time.sleep(1)
 print("\n\nApi traffic to Elasticsearch: stream-processing")
 traffic_nb_requete = int(traffic_time_max / traffic_time_interval)
@@ -218,6 +222,7 @@ while cpt <= traffic_nb_requete:
     cpt = cpt + 1
 
 print("\n- stream-ends:", time.strftime("%Y/%m/%d %H:%M:%S"))
+
 
 # %% check elasticsearch
 time.sleep(3)

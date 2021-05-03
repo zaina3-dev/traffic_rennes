@@ -8,8 +8,8 @@ class TestConfiguration(unittest.TestCase):
 
     # avant les tests
     def setUp(self):
-        self.utils_file = 'traffic_rennes_elasticsearch_utils.py'
-        self.params_file = 'traffic_rennes_parameters.txt'
+        self.utils_file = 'trafficrennes_transfertdata_utils.py'
+        self.params_file = 'trafficrennes_transfertdata_parameters.txt'
         self.params_sep = ' = '
 
         self.traffic_url = 'https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel'
@@ -65,7 +65,7 @@ class TestConfiguration(unittest.TestCase):
         es = Elasticsearch([{'host':self.es_host, 'port':self.es_port}])
         es_server = self.es_host +':'+ str(self.es_port) +'/'
         if not es.ping():
-            raise AssertionError('Elasticsearch server not connected: %s' % es_server)
+            raise AssertionError('Elasticsearch server not connected: %s' % str(es_server))
 
 
 if __name__ == '__main__':

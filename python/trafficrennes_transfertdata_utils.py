@@ -4,7 +4,6 @@ import json
 from elasticsearch import Elasticsearch
 
 
-### Connection elastic search
 # test le port elasticsearch
 def connect_elasticsearch():
     es = None
