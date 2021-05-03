@@ -6,4 +6,5 @@ PROJET_RENNES.pdf
 # python
 __pycache__/
 *.pyc
+/test
 
