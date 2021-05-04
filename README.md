@@ -43,7 +43,6 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 ### v5 : dashboard kibana
 Réalisation du dashboard sur kibana.
 
-<br/>
 
 ### v4 : transfère elasticsearch via python
 api -> python -> elasticsearch : via flask et docker, <br/>
@@ -56,7 +55,6 @@ Obsolète : impossible de réaliser l'affichage de la log en continue.
 
 *<sup>1</sup> flask : framework python*
 
-<br/>
 
 ### v3 : transfère elasticsearch via python
 api -> python -> elasticsearch : via batch-windows, <br/>
@@ -71,13 +69,11 @@ Réalisation de tests unitaires sur :
 * serveur elasticsearch
 * api traffic
 
-</br>
 
 ### v2 : transfère elasticsearch via python
 api -> python -> elasticsearch : manuellement,  
 Programme python qui appel l'api, récupère les données, les nettoies, et crée/màj l'index elasticsearch (v2.0).
 
-<br/>
 
 ### v1 : transfère elasticsearch via logstash
 api -> logstash -> elasticsearch,  
