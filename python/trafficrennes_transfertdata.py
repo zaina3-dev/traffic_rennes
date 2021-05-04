@@ -1,10 +1,10 @@
 # coding: utf-8
 
 '''
-Programme qui va consommer l'api traffic rennes pour ensuite transférer ses données à elasticsearch : 
+Programme qui va consommer l'api traffic rennes pour ensuite transférer les données à elasticsearch : 
 - windows (pré-requis)
 --> programme lamcé en batch windows
---> ses paramètres sont à définir dans un fichier text sous la fome "nom = valeur"
+--> ses paramètres sont à définir dans un fichier text sous la forme "nom = valeur"
 --> le fichier des paramètres doit être passé en paramètre lors de l'appel du programme python en .bat
 --> le script utils.py avec les fonctions python doit se trouver à la racine du programme
 
@@ -12,12 +12,11 @@ Programme qui va consommer l'api traffic rennes pour ensuite transférer ses don
 --> on récupère le contenu du fichier des paramètres et on initialise les variables
 ----> si fichier non existant on utilise des valeurs par défauts
 --> connection elasticsearch et gestion de l'index
---> stream-processing / loop
-----> requête l ápi et récupère les données
+--> stream-processing / flux-continue
+----> requête l'api et récupère les données
 ----> nettoyage / validation
 ----> envoies à elasticsearch
-
-- fin
+--> check elasticsearch
 '''
 
 # %% librairies
