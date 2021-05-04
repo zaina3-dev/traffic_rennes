@@ -16,21 +16,45 @@ API données : https://data.rennesmetropole.fr/explore/dataset/etat-du-trafic-en
 
 
 
+</br></br>
+
+## Utilisation
+
+Utilisation de la v3.2 pour le transfert des données depuis l'api vers elasticsearch :
+
+* définir les paramètres depuis ***trafficrennes_transfertdata_parameters.txt***
+    * nom de l'index *(string)* : `index_name = traffic_rennes` 
+    * re-créer l'index/True ou le màj/False *(bool)* : `index_init = False`
+    * nombre de ligne à importer par requête *(int)* : `traffic_nb_rows = 1000`
+    * niveau de confiance des données en % *(int)* : `traffic_reliability = 50`
+    * temps d'attente entre chaque flux en s *(int)* : `traffic_time_interval = 300` (5min)
+    * temps total que le programme tourme en s *(int)* : `traffic_time_max = 3600` (1h)
+
+* lancer le programme via ***.trafficrennes_transfertdata_run.bat***
+
+
+
+</br></br>
+
 ## Versionning
 
-### v4 : dashboard kibana
+### v5 : dashboard kibana
 Réalisation du dashboard sur kibana.
 
+<br/>
 
 ### v4 : transfère elasticsearch via python
 **api -> python -> elasticsearch : via flask et docker**, <br/>
-A partir de la v3.0 et utilisation de flask :
+A partir de la v3.0 et utilisation de flask<sup>1</sup> :
 * v4.0 : création d'un formulaire web pour la définition des paramètres
 * v4.1 : création d'une page web pour l'affichage de la log
 * v4.2 : dockerisation du programme python (non-fait)
 
 Obsolète : impossible de réaliser l'affichage de la log en continue.
 
+*<sup>1</sup> flask : framework python*
+
+<br/>
 
 ### v3 : transfère elasticsearch via python
 **api -> python -> elasticsearch : via batch-windows**, <br/>
@@ -39,11 +63,19 @@ A partir de la v2.0 :
 * v3.1 : paramètres de personnalisation du process définis via un fichier externe
 * v3.2 : lancement du programme python via **batch-windows**
 
+Réalisation de tests unitaires sur :
+* fichiers externes
+* type des paramètres 
+* serveur elasticsearch
+* api traffic
+
+</br>
 
 ### v2 : transfère elasticsearch via python
 **api -> python -> elasticsearch : manuellement**, <br/>
 Programme python qui appel l'api, récupère les données, les nettoies, et crée/màj l'index elasticsearch (v2.0).
 
+<br/>
 
 ### v1 : transfère elasticsearch via logstash
 **api -> logstash -> elasticsearch**, <br/>
