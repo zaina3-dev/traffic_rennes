@@ -27,8 +27,8 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
     * re-créer l'index (`True`) ou le màj (`False`) *(bool)* : `index_init = False`
     * nombre de ligne à importer par requête *(int)* : `traffic_nb_rows = 1000`
     * niveau de confiance des données en % *(int)* : `traffic_reliability = 50`
-    * temps d'attente entre chaque flux en s *(int/eval)* : `traffic_time_interval = 30*5` (60s=>1min*5=>5min)
-    * temps total que le programme tourme en s *(int/eval)* : `traffic_time_max = 60*60` (60s=>1min*60=>1h)
+    * temps d'attente entre chaque flux en s *(int/eval)* : `traffic_time_interval = 60*5` (60s=>1min*5=>5min)
+    * temps total que le programme tourme en s *(int/eval)* : `traffic_time_max = 60*60*3` (60s=>1min*60=>1h*3=>3h)
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
@@ -50,7 +50,7 @@ api -> python -> elasticsearch : via flask et docker, <br/>
 A partir de la v3.0 et utilisation de flask<sup>1</sup> :
 * v4.0 : création d'un formulaire web pour la définition des paramètres
 * v4.1 : création d'une page web pour l'affichage de la log
-* ~~v4.2 : dockerisation du programme python (non-fait)~~
+* ~~v4.2 : dockerisation du programme python~~
 
 Obsolète : impossible de réaliser l'affichage de la log en continue.
 
