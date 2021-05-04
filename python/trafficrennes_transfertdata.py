@@ -58,8 +58,10 @@ if params_file_exist:
 
     params = {}
     for i in params_list:
-        a = i.split(params_sep)
-        params[a[0]] = a[1]
+        j = i.split(params_sep)
+        params[j[0]] = j[1]
+    
+    del(i,j)
 
     # initialisation des parametres
     index_name = str(params["index_name"])

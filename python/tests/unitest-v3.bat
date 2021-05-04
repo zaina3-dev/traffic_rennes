@@ -5,7 +5,7 @@ TITLE TrafficRennes_TransfertData : test parameters (python)
 rem Variables
 SET python_exe=python
 rem C:\Users\formation\AppData\Local\Programs\Python\Python39\python.exe
-SET python_script=unitest.py
+SET python_script=unitest-v3.py
 
 
 rem Print

@@ -39,19 +39,19 @@ class TestConfiguration(unittest.TestCase):
 
         self.params = {}
         for i in params_list:
-            a = i.split(self.params_sep)
-            self.params[a[0]] = a[1]
+            j = i.split(self.params_sep)
+            self.params[j[0]] = j[1]
         
         # type
         self.assertTrue(type(str(self.params['index_name'])) is str)
         self.assertTrue(self.params['index_init'] in ['True','False'])        
         self.assertTrue(type(int(self.params['traffic_nb_rows'])) is int)
         self.assertTrue(type(int(self.params['traffic_reliability'])) is int)
-        self.assertTrue(type(int(self.params['traffic_time_interval'])) is int)
-        self.assertTrue(type(int(self.params['traffic_time_max'])) is int)
+        self.assertTrue(type(int(eval(self.params['traffic_time_interval']))) is int)
+        self.assertTrue(type(int(eval(self.params['traffic_time_max']))) is int)
         
         # cohérence valeurs
-        self.assertTrue(int(self.params['traffic_time_max']) >= int(self.params['traffic_time_interval']))
+        self.assertTrue(int(eval(self.params['traffic_time_max'])) >= int(eval(self.params['traffic_time_interval'])))
 
 
     # vérifie la réponse de l'api url

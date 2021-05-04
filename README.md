@@ -10,7 +10,7 @@ Afficher le traffic de la métropôle rennaise.
 A faire :
 * récupérer les données depuis l'api,
 * les transférer vers elasticsearch,
-* créer un dashboard kibana.
+* créer le dashboard sur kibana.
 
 API données : https://data.rennesmetropole.fr/explore/dataset/etat-du-trafic-en-temps-reel/information/
 
@@ -32,7 +32,8 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
-* lancer le serveur kibana `localhost:5601/`
+* lancer le serveur kibana et accéder au dashboard
+
 
 
 </br></br>
@@ -45,11 +46,11 @@ Réalisation du dashboard sur kibana.
 <br/>
 
 ### v4 : transfère elasticsearch via python
-**api -> python -> elasticsearch : via flask et docker**, <br/>
+api -> python -> elasticsearch : via flask et docker, <br/>
 A partir de la v3.0 et utilisation de flask<sup>1</sup> :
 * v4.0 : création d'un formulaire web pour la définition des paramètres
 * v4.1 : création d'une page web pour l'affichage de la log
-* v4.2 : dockerisation du programme python (non-fait)
+* ~~v4.2 : dockerisation du programme python (non-fait)~~
 
 Obsolète : impossible de réaliser l'affichage de la log en continue.
 
@@ -58,11 +59,11 @@ Obsolète : impossible de réaliser l'affichage de la log en continue.
 <br/>
 
 ### v3 : transfère elasticsearch via python
-**api -> python -> elasticsearch : via batch-windows**, <br/>
+api -> python -> elasticsearch : via batch-windows, <br/>
 A partir de la v2.0 :
-* v3.0 : création d'un flux continue pour la partie appel api ->...-> màj index elasticsearch
+* v3.0 : création d'un flux continue pour la partie *appel api -> ... -> màj index elasticsearch*
 * v3.1 : paramètres de personnalisation du process définis via un fichier externe
-* v3.2 : lancement du programme python via **batch-windows**
+* v3.2 : lancement du programme python en **batch-windows**  
 
 Réalisation de tests unitaires sur :
 * fichiers externes
@@ -73,11 +74,11 @@ Réalisation de tests unitaires sur :
 </br>
 
 ### v2 : transfère elasticsearch via python
-**api -> python -> elasticsearch : manuellement**, <br/>
+api -> python -> elasticsearch : manuellement,  
 Programme python qui appel l'api, récupère les données, les nettoies, et crée/màj l'index elasticsearch (v2.0).
 
 <br/>
 
 ### v1 : transfère elasticsearch via logstash
-**api -> logstash -> elasticsearch**, <br/>
+api -> logstash -> elasticsearch,  
 Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatiales.
