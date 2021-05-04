@@ -37,7 +37,7 @@ print("\n\nInformations")
 # gestion des variables globales
 # parametre fournit en cmd
 cArgs = sys.argv
-# cArgs[0] pour script
+# cArgs[0] pour le lien du script
 
 print("- Fichier avec les paramètres")
 params_file_exist = False
@@ -46,7 +46,7 @@ try:
     params_file_exist = True
     print("-->", params_file)
 except:
-    print("--> /!\ non fourni")
+    print("--> /!\\ non fourni")
 
 if params_file_exist:
     params_sep = " = "
@@ -66,8 +66,8 @@ if params_file_exist:
     index_init = params["index_init"] == 'True'
     traffic_nb_rows = int(params["traffic_nb_rows"])
     traffic_reliability = int(params["traffic_reliability"])
-    traffic_time_interval = int(params["traffic_time_interval"])
-    traffic_time_max = int(params["traffic_time_max"])
+    traffic_time_interval = int(eval(params["traffic_time_interval"]))
+    traffic_time_max = int(eval(params["traffic_time_max"]))
 else:
     # valeurs par defaut pour test
     print("--> les valeurs par défaut vont être utilisées")
@@ -107,6 +107,9 @@ time.sleep(1)
 print("\n\nConnection à elasticsearch")
 # crée une connection elasticsearch
 es = utils.connect_elasticsearch()
+if not es._connected:
+    print("\n\nArrêt-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"), "\n")
+    sys.exit()
 
 # ### Initialisation de l'index et mapping
 time.sleep(1)

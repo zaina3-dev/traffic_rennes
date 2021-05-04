@@ -24,14 +24,15 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 
 * définir les paramètres depuis ***trafficrennes_transfertdata_parameters.txt***
     * nom de l'index *(string)* : `index_name = traffic_rennes` 
-    * re-créer l'index/True ou le màj/False *(bool)* : `index_init = False`
+    * re-créer l'index (`True`) ou le màj (`False`) *(bool)* : `index_init = False`
     * nombre de ligne à importer par requête *(int)* : `traffic_nb_rows = 1000`
     * niveau de confiance des données en % *(int)* : `traffic_reliability = 50`
-    * temps d'attente entre chaque flux en s *(int)* : `traffic_time_interval = 300` (5min)
-    * temps total que le programme tourme en s *(int)* : `traffic_time_max = 3600` (1h)
+    * temps d'attente entre chaque flux en s *(int/eval)* : `traffic_time_interval = 30*5` (60s=>1min*5=>5min)
+    * temps total que le programme tourme en s *(int/eval)* : `traffic_time_max = 60*60` (60s=>1min*60=>1h)
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
+* lancer le serveur kibana `localhost:5601/`
 
 
 </br></br>

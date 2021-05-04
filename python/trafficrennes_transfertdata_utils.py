@@ -10,8 +10,10 @@ def connect_elasticsearch():
     es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
     if es.ping():
         print('--> elasticsearch bien connecté')
+        es._connected = True
     else:
-        print('--> /!\ elasticSearch pas de réponse')
+        print('--> /!\\ elasticSearch pas de réponse')
+        es._connected = False
     return es
 
 
