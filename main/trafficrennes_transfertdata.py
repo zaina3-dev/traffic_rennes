@@ -87,7 +87,7 @@ else:
     traffic_reliability = 0
 
     # intervalle de requêtage et temps maximale
-    traffic_time_interval = 60*5 #5min
+    traffic_time_interval = 60*3 #3min
     traffic_time_max = 60*60*1/2 #1/2h
 
 # url
