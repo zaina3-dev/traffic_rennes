@@ -19,7 +19,8 @@ Programme qui va consommer l'api traffic rennes pour ensuite transférer les don
 --> check elasticsearch
 '''
 
-# %% librairies
+
+#%% librairies
 import time
 import sys
 import requests
@@ -28,9 +29,9 @@ import requests
 import trafficrennes_transfertdata_utils as utils
 
 
-# %% ### Initialisation
+#%% ### Initialisation
 time.sleep(1)
-print("\nDébut-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("\nDébut-programme-python :", time.strftime("%Y/%m/%d %H:%M:%S"))
 
 print("\n\nInformations")
 
@@ -80,43 +81,49 @@ else:
     index_init = False
 
     # nombre de ligne par requête
-    traffic_nb_rows = 10
+    traffic_nb_rows = 1000
 
     # niveau de confiance des données
-    traffic_reliability = 5
+    traffic_reliability = 0
 
     # intervalle de requêtage et temps maximale
-    traffic_time_interval = 5
-    traffic_time_max = 15
+    traffic_time_interval = 60*5 #5min
+    traffic_time_max = 60*60*1/2 #1/2h
 
 # url
 traffic_url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel&q=&rows=" + str(
     traffic_nb_rows)
 
 print(
-    "\n- Api traffic:",
-    "\n--> url:", traffic_url,
-    "\n--> nombre de lignes à prendre:", traffic_nb_rows,
-    "\n--> reliability: >={}%".format(traffic_reliability),
-    "\n--> rafraichissement: tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
+    "\n- Api traffic :",
+    "\n--> url :", traffic_url,
+    "\n--> nombre de lignes à prendre :", traffic_nb_rows,
+    "\n--> reliability : >={}%".format(traffic_reliability),
+    "\n--> rafraichissement : tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
 
-    "\n\n- Elasticsearch index:", index_name
+    "\n\n- Elasticsearch index :", index_name
 )
 
 
 # %% ### Connection elastic search
 time.sleep(1)
 print("\n\nConnection à elasticsearch")
+
 # crée une connection elasticsearch
 es = utils.connect_elasticsearch()
+
+# vérifie si pas connecté : on arrête tout.
 if not es._connected:
-    print("\n\nArrêt-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"), "\n")
+    print("--> pas d'export vers elasticsearch effectué!")
+    print("\n\nArrêt-programme-python :", time.strftime("%Y/%m/%d %H:%M:%S"), "\n")
     sys.exit()
 
-# ### Initialisation de l'index et mapping
+
+#%% ### Initialisation de l'index et mapping
 time.sleep(1)
 print(f"\n\nGestion de l'index '{index_name}'")
 
+# test les différentes possibilités pour la création ou maj de l'index
 index_create = False
 if index_init:
     index_create = True
@@ -132,7 +139,7 @@ else:
         index_create = True
         index_init_text = "création (car index non existant pour maj)"
 
-print("--> opéation à réaliser sur l'index:", index_init_text)
+print("--> opéation à réaliser sur l'index :", index_init_text)
 
 # mappings pour les coordonnées geospatiales
 req_body = {
@@ -164,16 +171,16 @@ if index_create:
     print("--> index bien créé!")
 
 nb_rows_elastic1 = es.count(index=index_name)["count"]
-print("--> nombre de documents dans l'index:", nb_rows_elastic1)
+print("--> nombre de documents dans l'index :", nb_rows_elastic1)
 
 
 # %% ### Stream-processing / Loop
 time.sleep(1)
-print("\n\nApi traffic to Elasticsearch: stream-processing")
+print("\n\nApi traffic to Elasticsearch : stream-processing")
 traffic_nb_requete = int(traffic_time_max / traffic_time_interval)
-print(f"- stream-config: il y aura {traffic_nb_requete} requêtes à faire tous les {traffic_time_interval}s")
+print(f"- stream-config : il y aura {traffic_nb_requete} requêtes à faire tous les {traffic_time_interval}s")
 
-print("- stream-starts:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("- stream-starts :", time.strftime("%Y/%m/%d %H:%M:%S"))
 cpt = 1
 while cpt <= traffic_nb_requete:
     print(f"\n--- Requête {cpt}/{traffic_nb_requete} ---")
@@ -182,16 +189,23 @@ while cpt <= traffic_nb_requete:
     ### Import depuis l'api traffic
     print("\n- API traffic")
 
-    # get
+    # get request
     traffic = requests.get(traffic_url)
+
+    # test si la requête a marché
     if traffic.status_code == 200:
+        # si ok : retourne un json avec les données
+        data_json = traffic.json()
         print("--> requête ok!")
     else:
-        print("--> requête non-ok!")
+        # si non-ok : retourne un json vide
+        #data_json = {"records":[{"fields":{"traveltimereliability":-1}}]}
+        data_json = {"records":[]}
+        print("--> /!\\ requête non-ok!")
+        print("----> export : 0 ligne exportée")
         print("----> erreur :", traffic.status_code)
 
     # les données
-    data_json = traffic.json()
     data = data_json["records"]
     nb_rows1 = len(data)
     print(f"--> nombre de documents importés: {nb_rows1}/{traffic_nb_rows}")
@@ -199,12 +213,12 @@ while cpt <= traffic_nb_requete:
     ### Data processing
     print("\n- Qualité des données")
 
-    print("--> reliability...")
+    print("--> reliability : >={}%".format(traffic_reliability))
     data = [i for i in data if i["fields"]["traveltimereliability"] >= traffic_reliability]
 
     nb_rows2 = len(data)
     nb_rows3 = nb_rows1 - nb_rows2
-    print(f"----> nombre de documents restants: {nb_rows2}/{nb_rows1} ({nb_rows3} supprimés)")
+    print(f"----> nombre de documents restants : {nb_rows2}/{nb_rows1} ({nb_rows3} supprimés)")
 
     ### Export vers elasticsearch
     print("\n- Export vers elasticsearch")
@@ -215,9 +229,9 @@ while cpt <= traffic_nb_requete:
     j = 0
     for doc_body in data:
         req = es.index(index=index_name, id=i, doc_type='_doc', body=doc_body)
-        i = i + 1
-        j = j + 1
-    print(f"----> nombre de documents exportés: {j}/{nb_rows2}")
+        i += 1
+        j += 1
+    print(f"----> nombre de documents exportés : {j}/{nb_rows2}")
 
     ### attente / rafraichissement
     if cpt < traffic_nb_requete:
@@ -225,13 +239,13 @@ while cpt <= traffic_nb_requete:
         time.sleep(traffic_time_interval)
     cpt = cpt + 1
 
-print("\n- stream-ends:", time.strftime("%Y/%m/%d %H:%M:%S"))
+print("\n- stream-ends :", time.strftime("%Y/%m/%d %H:%M:%S"))
 
 
 # %% check elasticsearch
 time.sleep(3)
 print("\n\nElasticsearch")
 nb_rows_elastic2 = es.count(index=index_name)["count"]
-print(f"--> nombre total de documents dans l'index: {nb_rows_elastic2}/{nb_rows_elastic1}")
+print(f"--> nombre total de documents dans l'index : {nb_rows_elastic2}/{nb_rows_elastic1}")
 
-print("\n\nFin-programme-python:", time.strftime("%Y/%m/%d %H:%M:%S"), "\n")
+print("\n\nFin-programme-python :", time.strftime("%Y/%m/%d %H:%M:%S"), "\n")

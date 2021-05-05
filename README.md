@@ -32,7 +32,12 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
-* lancer le serveur kibana et accéder au dashboard
+* lancer le serveur kibana
+    * créer un index-pattern<sup>1</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
+    * importer le fichier ***trafficrennes_dashboard.ndjson***
+    * le dashboard est disponible sous le nom `trafficrennes-dashboard`
+
+*<sup>1</sup> la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
 
 
 
@@ -41,19 +46,19 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 ## Versionning
 
 ### v5 : dashboard kibana
-Réalisation du dashboard sur kibana.
+Réalisation du dashboard sur kibana (v5.0).
 
 
 ### v4 : transfère elasticsearch via python
 api -> python -> elasticsearch : via flask et docker, <br/>
-A partir de la v3.0 et utilisation de flask<sup>1</sup> :
+A partir de la v3.0 et utilisation de flask<sup>2</sup> :
 * v4.0 : création d'un formulaire web pour la définition des paramètres
 * v4.1 : création d'une page web pour l'affichage de la log
 * ~~v4.2 : dockerisation du programme python~~
 
 Obsolète : impossible de réaliser l'affichage de la log en continue.
 
-*<sup>1</sup> flask : framework python*
+*<sup>2</sup> flask : framework python*
 
 
 ### v3 : transfère elasticsearch via python
@@ -77,4 +82,4 @@ Programme python qui appel l'api, récupère les données, les nettoies, et cré
 
 ### v1 : transfère elasticsearch via logstash
 api -> logstash -> elasticsearch,  
-Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatiales.
+Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatiales (v1.0).
