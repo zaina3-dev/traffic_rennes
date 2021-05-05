@@ -2,13 +2,13 @@
 Suivi_projet.md
 PROJET_RENNES.pdf
 
-
 # python
 __pycache__/
 .ipynb_checkpoints/
 *.pyc
 /test
 
-*.idea
+# flask
+.idea/
 test/
 
