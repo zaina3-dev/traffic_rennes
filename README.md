@@ -34,7 +34,7 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 
 * lancer le serveur kibana
     * créer un index-pattern<sup>1</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
-    * importer le fichier ***trafficrennes_dashboard.ndjson***
+    * importer un saved-object avec le fichier ***trafficrennes_dashboard.ndjson***
     * le dashboard est disponible sous le nom `trafficrennes-dashboard`
 
 *<sup>1</sup> la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
