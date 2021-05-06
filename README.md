@@ -23,6 +23,8 @@ API données : https://data.rennesmetropole.fr/explore/dataset/etat-du-trafic-en
 Pré-requis : 
 * server elasticsearch et kibana connecté
 * api traffic rennes disponible
+* python3 installé
+* les fichiers du répertoire [main](../zaina3-dev/master/main)
 
 
 Transfert des données depuis l'api vers elasticsearch :
