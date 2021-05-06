@@ -24,7 +24,7 @@ Prérequis :
 * server elasticsearch et kibana connecté
 * api traffic rennes disponible
 * python3 installé
-* le contenu du répertoire [main](../../tree/master/binaires/)
+* le contenu du répertoire [binaires](../../tree/master/binaires/)
     * programme qui lance le programme python (.bat)
     * programme python qui réalise le transfert de données (.py)
     * script python avec les fonctions perso (.py)
