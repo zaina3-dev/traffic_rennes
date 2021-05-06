@@ -5,7 +5,7 @@ Groupe : Fred, Khaly, Zaina
 
 ## Sujet
 
-Afficher le traffic de la métropôle rennaise.
+Afficher le traffic en temps réel de la métropôle rennaise.
 
 A faire :
 * récupérer les données depuis l'api,
@@ -92,8 +92,8 @@ Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatia
 
 ### v0 : serveur elastic
 ELK sera installé sur une image docker, avec :
-* portainer : [localhost:9000/](localhost:9000/)
-* elasticsearch : [localhost:9200/](localhost:9200/)
-* kibana : [localhost:5601/](localhost:5601/)
+* portainer : [localhost:9000/](http://localhost:9000/)
+* elasticsearch : [localhost:9200/](http://localhost:9200/)
+* kibana : [localhost:5601/](http://localhost:5601/)
 
 Le paramètrage des containers elasticsearch et kibana est défini dans un docker-compose (v0.1).
