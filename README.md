@@ -24,7 +24,14 @@ Pré-requis :
 * server elasticsearch et kibana connecté
 * api traffic rennes disponible
 * python3 installé
-* les fichiers du répertoire [main](../../tree/master/main/)
+* le contenu du répertoire [main](../../tree/master/main/)
+    * programme qui lance le programme python (.bat)
+    * programme python qui réalise le transfert de données (.py)
+    * script python avec les fonctions perso (.py)
+    * fichier des paramètres pour personnalisation (.txt)
+    * script docker-compose pour la création d'une stack (.yml)
+    * données de création du dashboard (.ndjson)
+
 
 
 Transfert des données depuis l'api vers elasticsearch :
