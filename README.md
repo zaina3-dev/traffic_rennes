@@ -83,3 +83,12 @@ Programme python qui appel l'api, récupère les données, les nettoies, et cré
 ### v1 : transfère elasticsearch via logstash
 api -> logstash -> elasticsearch,  
 Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatiales (v1.0).
+
+
+### v0 : serveur elastic
+ELK sera installé sur une image docker. Avec :
+* portainer : [localhost:9000/]
+* elasticsearch : [localhost:9200/]
+* kibana : [localhost:5601/]
+
+Le paramètrage des containers elasticsearch et kibana est défini dans un docker-compose (v0.1).
