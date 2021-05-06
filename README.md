@@ -40,8 +40,8 @@ Transfert des données depuis l'api vers elasticsearch :
     * re-créer l'index (`True`) ou le màj (`False`) *(bool)* : `index_init = False`
     * nombre de ligne à importer par requête *(int)* : `traffic_nb_rows = 1000`
     * niveau de confiance des données en % *(int)* : `traffic_reliability = 50`
-    * temps d'attente entre chaque flux en s *(int/eval)* : `traffic_time_interval = 60*3` (60s=>1min\*3=>3min)
-    * temps total que le programme tourme en s *(int/eval)* : `traffic_time_max = 60*60*2` (60s=>1min\*60=>1h*3=>2h)
+    * durée d'actualisation (attente entre chaque flux) en s *(int/eval)* : `traffic_time_interval = 60*3` (60s=>1min\*3=>3min)
+    * durée total du flux-continu en s *(int/eval)* : `traffic_time_max = 60*60*2` (60s=>1min\*60=>1h*3=>2h)
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 

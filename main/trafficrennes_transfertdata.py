@@ -98,13 +98,20 @@ es_host = 'localhost'
 es_port = 9200
 es_server = es_host +':'+ str(es_port) +'/'
 
+# converti les secondes en durée
+traffic_time_interval_str = utils.second_to_time(s=traffic_time_interval)
+traffic_time_max_str = utils.second_to_time(s=traffic_time_max)
+
 # affichage
 print(
     "\n- Api traffic :",
     "\n--> url :", traffic_url,
     "\n--> nombre de lignes à prendre :", traffic_nb_rows,
     "\n--> reliability : >={}%".format(traffic_reliability),
-    "\n--> rafraichissement : tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
+
+    "\n\n- Stream-processing / flux-continu :",
+    "\n--> actualisation : tous les", traffic_time_interval_str,
+    "\n--> durée total :", traffic_time_max_str,
 
     "\n\n- Elasticsearch :", 
     "\n--> index :", index_name,
@@ -185,7 +192,7 @@ print("--> nombre de documents dans l'index :", nb_rows_elastic1)
 time.sleep(1)
 print("\n\nApi traffic to Elasticsearch : stream-processing")
 traffic_nb_requete = int(traffic_time_max / traffic_time_interval)
-print(f"- stream-config : il y aura {traffic_nb_requete} requêtes à faire tous les {traffic_time_interval}s")
+print(f"- stream-config : il y aura {traffic_nb_requete} actualisation à faire tous les {traffic_time_interval_str}")
 
 print("- stream-starts :", time.strftime("%Y/%m/%d %H:%M:%S"))
 cpt = 1
@@ -242,7 +249,7 @@ while cpt <= traffic_nb_requete:
 
     ### attente / rafraichissement
     if cpt < traffic_nb_requete:
-        print(f"\n(--- attente-de-{traffic_time_interval}s-avant-nouvel-appel-api ---)\n")
+        print(f"\n(--- attente-de-{traffic_time_interval_str}-avant-nouvelle-actualisation ---)\n")
         time.sleep(traffic_time_interval)
     cpt = cpt + 1
 

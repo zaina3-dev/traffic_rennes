@@ -11,10 +11,10 @@ index_init = False
 traffic_nb_rows = 100
 
 # 4. niveau de confiance des données en % : int
-traffic_reliability = 50
+traffic_reliability = 10
 
 # 5. temps d'attente entre chaque requête en s : int/eval
-traffic_time_interval = 10*1
+traffic_time_interval = 174
 
 # 6. temps total que le programme tourme en s : int/eval
-traffic_time_max = 30*2
+traffic_time_max = 3464865*2
