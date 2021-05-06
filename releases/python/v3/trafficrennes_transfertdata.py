@@ -87,13 +87,18 @@ else:
     traffic_reliability = 0
 
     # intervalle de requêtage et temps maximale
-    traffic_time_interval = 60*5 #5min
+    traffic_time_interval = 60*3 #3min
     traffic_time_max = 60*60*1/2 #1/2h
 
 # url
-traffic_url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel&q=&rows=" + str(
-    traffic_nb_rows)
+traffic_url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel&q=&rows=" + str(traffic_nb_rows)
 
+# serveur elasticsearch
+es_host = 'localhost'
+es_port = 9200
+es_server = es_host +':'+ str(es_port) +'/'
+
+# affichage
 print(
     "\n- Api traffic :",
     "\n--> url :", traffic_url,
@@ -101,7 +106,9 @@ print(
     "\n--> reliability : >={}%".format(traffic_reliability),
     "\n--> rafraichissement : tous les {}s (max de {}s)".format(traffic_time_interval, traffic_time_max),
 
-    "\n\n- Elasticsearch index :", index_name
+    "\n\n- Elasticsearch :", 
+    "\n--> index :", index_name,
+    "\n--> serveur :", es_server
 )
 
 
@@ -110,7 +117,7 @@ time.sleep(1)
 print("\n\nConnection à elasticsearch")
 
 # crée une connection elasticsearch
-es = utils.connect_elasticsearch()
+es = utils.connect_elasticsearch(host=es_host, port=es_port)
 
 # vérifie si pas connecté : on arrête tout.
 if not es._connected:

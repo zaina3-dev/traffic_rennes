@@ -32,10 +32,10 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
-* lancer le serveur kibana
-    * créer un index-pattern<sup>1</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
-    * importer un saved-object avec le fichier ***trafficrennes_dashboard.ndjson***
-    * le dashboard est disponible sous le nom `trafficrennes-dashboard`
+Depuis le serveur kibana
+* créer un index-pattern<sup>1</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
+* importer un saved-object avec le fichier ***trafficrennes_dashboard.ndjson***
+* le dashboard est disponible sous le nom `trafficrennes-dashboard`
 
 *<sup>1</sup> la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
 
@@ -49,7 +49,7 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 Réalisation du dashboard sur kibana (v5.0).
 
 
-### v4 : transfère elasticsearch via python
+### v4 : transfert api to elasticsearch via python/flask
 api -> python -> elasticsearch : via flask et docker, <br/>
 A partir de la v3.0 et utilisation de flask<sup>2</sup> :
 * v4.0 : création d'un formulaire web pour la définition des paramètres
@@ -61,7 +61,7 @@ Obsolète : impossible de réaliser l'affichage de la log en continue.
 *<sup>2</sup> flask : framework python*
 
 
-### v3 : transfère elasticsearch via python
+### v3 : transfert api to elasticsearch via python
 api -> python -> elasticsearch : via batch-windows, <br/>
 A partir de la v2.0 :
 * v3.0 : création d'un flux continue pour la partie *appel api -> ... -> màj index elasticsearch*
@@ -69,13 +69,13 @@ A partir de la v2.0 :
 * v3.2 : lancement du programme python en **batch-windows**  
 
 Réalisation de tests unitaires sur :
-* fichiers externes
-* type des paramètres 
-* serveur elasticsearch
-* api traffic
+* l'existence des fichiers externes
+* le type des paramètres 
+* l'accessibilité du serveur elasticsearch
+* le retour d'une réponse "200" de l'api traffic
 
 
-### v2 : transfère elasticsearch via python
+### v2 : transfert api to elasticsearch via python
 api -> python -> elasticsearch : manuellement,  
 Programme python qui appel l'api, récupère les données, les nettoies, et crée/màj l'index elasticsearch (v2.0).
 
@@ -87,8 +87,8 @@ Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatia
 
 ### v0 : serveur elastic
 ELK sera installé sur une image docker. Avec :
-* portainer : [localhost:9000/]
-* elasticsearch : [localhost:9200/]
-* kibana : [localhost:5601/]
+* portainer : [localhost:9000/](localhost:9000/)
+* elasticsearch : [localhost:9200/](localhost:9200/)
+* kibana : [localhost:5601/](localhost:5601/)
 
 Le paramètrage des containers elasticsearch et kibana est défini dans un docker-compose (v0.1).

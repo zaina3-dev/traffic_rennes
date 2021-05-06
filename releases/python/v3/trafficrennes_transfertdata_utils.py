@@ -5,14 +5,15 @@ from elasticsearch import Elasticsearch
 
 
 # test le port elasticsearch
-def connect_elasticsearch():
+def connect_elasticsearch(host, port):
     es = None
-    es = Elasticsearch([{'host': 'localhost', 'port': 9200}])
+    es = Elasticsearch([{'host':host, 'port':port}])
     if es.ping():
         print('--> elasticsearch bien connecté')
         es._connected = True
     else:
-        print('--> /!\\ elasticSearch pas de réponse')
+        server = host +':'+ str(port) +'/'
+        print('--> /!\\ elasticsearch pas de réponse :', server)
         es._connected = False
     return es
 
