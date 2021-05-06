@@ -20,7 +20,7 @@ API données : https://data.rennesmetropole.fr/explore/dataset/etat-du-trafic-en
 
 ## Utilisation
 
-Pré-requis : 
+Prérequis : 
 * server elasticsearch et kibana connecté
 * api traffic rennes disponible
 * python3 installé

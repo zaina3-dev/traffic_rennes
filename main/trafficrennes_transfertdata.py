@@ -192,7 +192,7 @@ print("--> nombre de documents dans l'index :", nb_rows_elastic1)
 time.sleep(1)
 print("\n\nApi traffic to Elasticsearch : stream-processing")
 traffic_nb_requete = int(traffic_time_max / traffic_time_interval)
-print(f"- stream-config : il y aura {traffic_nb_requete} actualisation à faire tous les {traffic_time_interval_str}")
+print(f"- stream-config : il y aura {traffic_nb_requete} actualisations à réaliser tous les {traffic_time_interval_str}")
 
 print("- stream-starts :", time.strftime("%Y/%m/%d %H:%M:%S"))
 cpt = 1
