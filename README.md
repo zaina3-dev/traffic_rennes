@@ -20,8 +20,12 @@ API données : https://data.rennesmetropole.fr/explore/dataset/etat-du-trafic-en
 
 ## Utilisation
 
-Utilisation de la v3.2 pour le transfert des données depuis l'api vers elasticsearch :
+Pré-requis : 
+* server elasticsearch et kibana connecté
+* api traffic rennes disponible
 
+
+Transfert des données depuis l'api vers elasticsearch :
 * définir les paramètres depuis ***trafficrennes_transfertdata_parameters.txt***
     * nom de l'index *(string)* : `index_name = traffic_rennes` 
     * re-créer l'index (`True`) ou le màj (`False`) *(bool)* : `index_init = False`
@@ -32,12 +36,13 @@ Utilisation de la v3.2 pour le transfert des données depuis l'api vers elastics
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
-Depuis le serveur kibana
+
+Import du dashboard sous kibana :
 * créer un index-pattern<sup>1</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
 * importer un saved-object avec le fichier ***trafficrennes_dashboard.ndjson***
 * le dashboard est disponible sous le nom `trafficrennes-dashboard`
 
-*<sup>1</sup> la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
+*<sup>1</sup> note : la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
 
 
 
@@ -86,7 +91,7 @@ Obsolète : elasticsearch ne reconnait pas automatiquement les champs géospatia
 
 
 ### v0 : serveur elastic
-ELK sera installé sur une image docker. Avec :
+ELK sera installé sur une image docker, avec :
 * portainer : [localhost:9000/](localhost:9000/)
 * elasticsearch : [localhost:9200/](localhost:9200/)
 * kibana : [localhost:5601/](localhost:5601/)
