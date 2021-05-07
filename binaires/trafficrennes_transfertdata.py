@@ -236,9 +236,8 @@ while cpt <= traffic_nb_requete:
 
     ### Export vers elasticsearch
     print("\n- Export vers elasticsearch")
-    # -> A FAIRE, CHECK SI SERVEUR ELASTICSEARCH TJRS ACTIF
+    print("--> export en cours...")
     if es.ping():
-        print("--> export en cours...")
         i = es.count(index=index_name)['count'] + 1
         j = 0
         for doc_body in data:
@@ -247,9 +246,9 @@ while cpt <= traffic_nb_requete:
             j += 1
         print(f"----> nombre de documents exportés : {j}/{nb_rows2}")
     else:
-        print('--> /!\\ elasticsearch ne répond plus :', es_server)
-        print("--> pas d'export vers elasticsearch effectué")
-        print("--> on passe au stream suivant")
+        print('----> /!\\ elasticsearch ne répond plus :', es_server)
+        print("----> pas d'export vers elasticsearch effectué")
+        print("----> on passe au stream suivant")
 
     ### attente / rafraichissement
     if cpt < traffic_nb_requete:
