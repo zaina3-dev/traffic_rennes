@@ -12,7 +12,7 @@ Programme qui va consommer l'api traffic rennes pour ensuite transférer les don
 --> on récupère le contenu du fichier des paramètres et on initialise les variables
 ----> si fichier non existant on utilise des valeurs par défauts
 --> connection elasticsearch et gestion de l'index
---> stream-processing / flux-continue
+--> stream-processing / flux-continu
 ----> requête l'api et récupère les données
 ----> nettoyage / validation
 ----> envoies à elasticsearch
@@ -84,11 +84,11 @@ else:
     traffic_nb_rows = 1000
 
     # niveau de confiance des données
-    traffic_reliability = 0
+    traffic_reliability = 10
 
-    # intervalle de requêtage et temps maximale
-    traffic_time_interval = 60*3 #3min
-    traffic_time_max = 60*60*1/2 #1/2h
+    # stream : durée d'actualisation et total du stren
+    traffic_time_interval = 60*10 #10min
+    traffic_time_max = 60*60*2 #2h
 
 # url
 traffic_url = "https://data.rennesmetropole.fr/api/records/1.0/search/?dataset=etat-du-trafic-en-temps-reel&q=&rows=" + str(traffic_nb_rows)
@@ -190,14 +190,14 @@ print("--> nombre de documents dans l'index :", nb_rows_elastic1)
 
 # %% ### Stream-processing / Loop
 time.sleep(1)
-print("\n\nApi traffic to Elasticsearch : stream-processing")
+print("\n\nStream-processing : api traffic to elasticsearch")
 traffic_nb_requete = int(traffic_time_max / traffic_time_interval)
 print(f"- stream-config : il y aura {traffic_nb_requete} actualisations à réaliser tous les {traffic_time_interval_str}")
 
 print("- stream-starts :", time.strftime("%Y/%m/%d %H:%M:%S"))
 cpt = 1
 while cpt <= traffic_nb_requete:
-    print(f"\n--- Requête {cpt}/{traffic_nb_requete} ---")
+    print(f"\n--- stream {cpt}/{traffic_nb_requete} ---")
     print("- lancement:", time.strftime("%Y/%m/%d %H:%M:%S"))
 
     ### Import depuis l'api traffic
@@ -236,16 +236,20 @@ while cpt <= traffic_nb_requete:
 
     ### Export vers elasticsearch
     print("\n- Export vers elasticsearch")
-
-    # export vers elastic
-    print("--> export en cours...")
-    i = es.count(index=index_name)['count'] + 1
-    j = 0
-    for doc_body in data:
-        req = es.index(index=index_name, id=i, doc_type='_doc', body=doc_body)
-        i += 1
-        j += 1
-    print(f"----> nombre de documents exportés : {j}/{nb_rows2}")
+    # -> A FAIRE, CHECK SI SERVEUR ELASTICSEARCH TJRS ACTIF
+    if es.ping():
+        print("--> export en cours...")
+        i = es.count(index=index_name)['count'] + 1
+        j = 0
+        for doc_body in data:
+            req = es.index(index=index_name, id=i, doc_type='_doc', body=doc_body)
+            i += 1
+            j += 1
+        print(f"----> nombre de documents exportés : {j}/{nb_rows2}")
+    else:
+        print('--> /!\\ elasticsearch ne répond plus :', es_server)
+        print("--> pas d'export vers elasticsearch effectué")
+        print("--> on passe au stream suivant")
 
     ### attente / rafraichissement
     if cpt < traffic_nb_requete:

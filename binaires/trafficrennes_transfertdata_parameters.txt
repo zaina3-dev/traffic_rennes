@@ -14,7 +14,7 @@ traffic_nb_rows = 1000
 traffic_reliability = 10
 
 # 5. temps d'attente entre chaque requête en s : int/eval
-traffic_time_interval = 60*3
+traffic_time_interval = 60*5
 
 # 6. temps total que le programme tourme en s : int/eval
-traffic_time_max = 60*60*3
+traffic_time_max = 60*60*2

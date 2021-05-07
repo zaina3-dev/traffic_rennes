@@ -20,11 +20,11 @@ API données : https://data.rennesmetropole.fr/explore/dataset/etat-du-trafic-en
 
 ## Utilisation
 
-Prérequis : 
+### Prérequis
 * server elasticsearch et kibana connecté
 * api traffic rennes disponible
 * python3 installé
-* le contenu du répertoire [binaires](../../tree/master/binaires/)
+* le contenu du répertoire "[binaires](../../tree/master/binaires/)"
     * programme qui lance le programme python (.bat)
     * programme python qui réalise le transfert de données (.py)
     * script python avec les fonctions perso (.py)
@@ -32,21 +32,24 @@ Prérequis :
     * script docker-compose pour la création d'une stack (.yml)
     * données de création du dashboard (.ndjson)
 
+Note :
+* "[documents](../../tree/master/documents/)" contient la documentation fonctionnelle et technique
+* "[releases](../../tree/master/releases/)" contient les scripts pour les anciennes versions
 
 
-Transfert des données depuis l'api vers elasticsearch :
+### Transfert des données depuis l'api vers elasticsearch
 * définir les paramètres depuis ***trafficrennes_transfertdata_parameters.txt***
     * nom de l'index *(string)* : `index_name = traffic_rennes` 
     * re-créer l'index (`True`) ou le màj (`False`) *(bool)* : `index_init = False`
     * nombre de ligne à importer par requête *(int)* : `traffic_nb_rows = 1000`
-    * niveau de confiance des données en % *(int)* : `traffic_reliability = 50`
-    * durée d'actualisation (attente entre chaque flux) en s *(int/eval)* : `traffic_time_interval = 60*3` (60s=>1min\*3=>3min)
-    * durée total du flux-continu en s *(int/eval)* : `traffic_time_max = 60*60*2` (60s=>1min\*60=>1h*3=>2h)
+    * niveau de confiance des données en % *(int)* : `traffic_reliability = 10`
+    * durée d'actualisation (attente entre chaque flux) en s *(int/eval)* : `traffic_time_interval = 60*5` (60s=>1min\*5=>5min)
+    * durée total du flux-continu en s *(int/eval)* : `traffic_time_max = 60*60*2` (60s=>1min\*60=>1h*2=>2h)
 
 * lancer le programme via ***.trafficrennes_transfertdata_run.bat***
 
 
-Import du dashboard sous kibana :
+### Import du dashboard sous kibana
 * créer un index-pattern<sup>1</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
 * importer un saved-object avec le fichier ***trafficrennes_dashboard.ndjson***
 * le dashboard est disponible sous le nom `trafficrennes-dashboard`
