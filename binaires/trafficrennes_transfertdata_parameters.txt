@@ -17,4 +17,4 @@ traffic_reliability = 10
 traffic_time_interval = 60*5
 
 # 6. temps total que le programme tourme en s : int/eval
-traffic_time_max = 60*60*2
+traffic_time_max = 60*60*1
