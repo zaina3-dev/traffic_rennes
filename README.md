@@ -56,11 +56,11 @@ Note :
 
 
 ### Import du dashboard sous kibana
-* créer un index-pattern<sup>2</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
+* créer un index-pattern<sup>3</sup> dont l'id est `trafficrennes-indexpatternid-x9y7z6`
 * importer un saved-object avec le fichier ***trafficrennes_dashboard.ndjson***
 * le dashboard est disponible sous le nom `trafficrennes-dashboard`
 
-*<sup>2</sup> note : la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
+*<sup>3</sup> note : la création d'un index-pattern nécéssite que l'index existe et soit non-vide.*
 
 
 
@@ -74,14 +74,14 @@ Réalisation du dashboard sur kibana (v5.0).
 
 ### v4 : transfert api to elasticsearch via python/flask
 api -> python -> elasticsearch : via flask et docker, <br/>
-A partir de la v3.0 et utilisation de flask<sup>2</sup> :
+A partir de la v3.0 et utilisation de flask<sup>4</sup> :
 * v4.0 : création d'un formulaire web pour la définition des paramètres
 * v4.1 : création d'une page web pour l'affichage de la log
 * ~~v4.2 : dockerisation du programme python~~
 
 Obsolète : impossible de réaliser l'affichage de la log en continue sur le navigateur.
 
-*<sup>2</sup> flask : framework python*
+*<sup>4</sup> flask : framework python*
 
 
 ### v3 : transfert api to elasticsearch via python
